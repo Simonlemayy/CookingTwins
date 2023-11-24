@@ -9,9 +9,12 @@ public partial class player_cat : CharacterBody2D
 	private float Orientation { get; set; } = 0.0f;
 
 	private AnimationTree _AnimationTree;
+	private Camera2D _Camera2D;
+
 	public override void _Ready()
 	{
 		_AnimationTree = GetNode<AnimationTree>("AnimationTree");
+		_Camera2D = GetNode<Camera2D>("Camera2D");
 	}
 
 	public void UpdateAnimationParameters()
@@ -51,12 +54,18 @@ public partial class player_cat : CharacterBody2D
 
 		Rotation = Mathf.Atan2(direction.Y, direction.X);
 	}
-	public override void _PhysicsProcess(double delta)
+	public void SetCameraPosition()
+	{
+        Vector2 CameraOffset = ((GetGlobalMousePosition() - GlobalPosition) / 2).Normalized();
+        _Camera2D.Position = _Camera2D.Position.Lerp(CameraOffset * 40, CameraOffset.Length() / 10);
+    }
+    public override void _PhysicsProcess(double delta)
 	{
 		GetInput();
         Velocity *= Speed;
         UpdateAnimationParameters();
 		SetSpriteOrientation();
-		MoveAndSlide();
+		SetCameraPosition();
+        MoveAndSlide();
     }
 }
