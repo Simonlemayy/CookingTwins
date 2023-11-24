@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://cbvubsa5b6o4o"]
 
 [ext_resource type="Script" path="res://Characters/player_cat.cs" id="1_k5xl8"]
-[ext_resource type="Texture2D" uid="uid://b3jmvse3u8lqt" path="res://Art/Main_character_idle_spritesheet.png" id="2_npget"]
+[ext_resource type="Texture2D" uid="uid://b3jmvse3u8lqt" path="res://Art/Main_character_spritesheet.png" id="2_7342j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ykpsu"]
 size = Vector2(13, 24.5)
@@ -330,7 +330,7 @@ graph_offset = Vector2(-47.5, -696.815)
 script = ExtResource("1_k5xl8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_npget")
+texture = ExtResource("2_7342j")
 hframes = 2
 vframes = 12
 frame = 1
