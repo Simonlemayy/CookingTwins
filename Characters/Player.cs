@@ -15,14 +15,14 @@ namespace Player
         public int BaseSpeed = 260;
 
         [Export]
-        public int SlideSpeed = 360;
+        public int SlideSpeed = 500;
         private float Orientation { get; set; } = 0.0f;
 
         private AnimationTree _AnimationTree;
         private AnimationNodeStateMachinePlayback _AnimationStateMachine;
+        private Timer _SlideTimer;
 
         private PLAYER_STATE _CurrentState;
-
         private int _CurrentSpeed;
 
         public override void _Ready()
@@ -30,6 +30,15 @@ namespace Player
             _AnimationTree = GetNode<AnimationTree>("AnimationTree");
             _AnimationStateMachine = (AnimationNodeStateMachinePlayback)_AnimationTree.Get("parameters/playback");
 
+            _CurrentSpeed = BaseSpeed;
+
+            _SlideTimer = this.GetNode<Timer>("SlideTimer");
+            _SlideTimer.Timeout += _HandleSlide;
+        }
+
+        private void _HandleSlide()
+        {
+            _CurrentState = PLAYER_STATE.PLAYER_STATE_IDLE;
             _CurrentSpeed = BaseSpeed;
         }
 
@@ -57,6 +66,7 @@ namespace Player
             _AnimationTree.Set("parameters/Idle/blend_position", direction);
             _AnimationTree.Set("parameters/Walk/blend_position", direction);
         }
+
         public void GetInput()
         {
             Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
@@ -78,6 +88,8 @@ namespace Player
             {
                 _CurrentState = PLAYER_STATE.PLAYER_STATE_SLIDING;
                 _CurrentSpeed = SlideSpeed;
+
+                _SlideTimer.Start();
             }
 
             Velocity = inputDirection;

@@ -705,6 +705,10 @@ sources/5 = SubResource("TileSetAtlasSource_ycswp")
 [node name="Player" parent="." instance=ExtResource("1_c3cby")]
 position = Vector2(234, 114)
 
+[node name="SlideTimer" type="Timer" parent="Player"]
+process_callback = 0
+wait_time = 0.5
+
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-46, 82)
 tile_set = SubResource("TileSet_l3u1g")
