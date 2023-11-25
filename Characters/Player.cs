@@ -21,6 +21,7 @@ namespace Player
         private AnimationTree _AnimationTree;
         private AnimationNodeStateMachinePlayback _AnimationStateMachine;
         private Timer _SlideTimer;
+        private Vector2 _SlideVelocity;
 
         private PLAYER_STATE _CurrentState;
         private int _CurrentSpeed;
@@ -30,10 +31,10 @@ namespace Player
             _AnimationTree = GetNode<AnimationTree>("AnimationTree");
             _AnimationStateMachine = (AnimationNodeStateMachinePlayback)_AnimationTree.Get("parameters/playback");
 
-            _CurrentSpeed = BaseSpeed;
-
             _SlideTimer = this.GetNode<Timer>("SlideTimer");
             _SlideTimer.Timeout += _HandleSlide;
+
+            _CurrentSpeed = BaseSpeed;
         }
 
         private void _HandleSlide()
@@ -59,6 +60,7 @@ namespace Player
                     break;
             }
         }
+
         public void SetSpriteOrientation()
         {
             Vector2 direction = (GetGlobalMousePosition() - GlobalPosition).Normalized();
@@ -70,30 +72,41 @@ namespace Player
         public void GetInput()
         {
             Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
-            if (inputDirection.LengthSquared() != 0 && _CurrentState != PLAYER_STATE.PLAYER_STATE_SLIDING)
-            {
-                _CurrentState = PLAYER_STATE.PLAYER_STATE_WALKING;
-            }
-            else if (inputDirection.LengthSquared() == 0)
-            {
-                _CurrentState = PLAYER_STATE.PLAYER_STATE_IDLE;
-            }
-
             if (!inputDirection.IsNormalized())
             {
                 inputDirection = inputDirection.Normalized();
+            }
+
+            // While we're sliding we shouldn't update the player state
+            if (inputDirection.LengthSquared() == 0 && _CurrentState != PLAYER_STATE.PLAYER_STATE_SLIDING)
+            {
+                _CurrentState = PLAYER_STATE.PLAYER_STATE_IDLE;
+            }
+            else if (inputDirection.LengthSquared() != 0 && _CurrentState != PLAYER_STATE.PLAYER_STATE_SLIDING)
+            {
+                _CurrentState = PLAYER_STATE.PLAYER_STATE_WALKING;
             }
 
             if (Input.IsActionPressed("slide") && _CurrentState != PLAYER_STATE.PLAYER_STATE_SLIDING)
             {
                 _CurrentState = PLAYER_STATE.PLAYER_STATE_SLIDING;
                 _CurrentSpeed = SlideSpeed;
+                _SlideVelocity = inputDirection;
 
                 _SlideTimer.Start();
             }
 
-            Velocity = inputDirection;
+            // If we're currently sliding we want to lock the velocity vector
+            if (_CurrentState == PLAYER_STATE.PLAYER_STATE_SLIDING)
+            {
+                Velocity = _SlideVelocity;
+            }
+            else
+            {
+                Velocity = inputDirection;
+            }
         }
+
         public void GetRotation()
         {
             Vector2 mousePosition = GetGlobalMousePosition();
@@ -101,6 +114,7 @@ namespace Player
 
             Rotation = Mathf.Atan2(direction.Y, direction.X);
         }
+
         public override void _PhysicsProcess(double delta)
         {
             GetInput();
