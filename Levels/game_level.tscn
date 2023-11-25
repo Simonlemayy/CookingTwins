@@ -702,7 +702,7 @@ sources/5 = SubResource("TileSetAtlasSource_ycswp")
 
 [node name="GameLevel" type="Node2D"]
 
-[node name="PlayerCat" parent="." instance=ExtResource("1_c3cby")]
+[node name="Player" parent="." instance=ExtResource("1_c3cby")]
 position = Vector2(234, 114)
 
 [node name="TileMap" type="TileMap" parent="."]
