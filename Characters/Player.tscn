@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dp272n7vcy321"]
+[gd_scene load_steps=36 format=3 uid="uid://cbvubsa5b6o4o"]
 
 [ext_resource type="Script" path="res://Characters/Player.cs" id="1_k5xl8"]
 [ext_resource type="Texture2D" uid="uid://b3jmvse3u8lqt" path="res://Art/Main_character_spritesheet.png" id="2_7342j"]
@@ -304,12 +304,8 @@ blend_mode = 1
 sync = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fnxbq"]
-advance_mode = 2
-advance_condition = &"is_walking"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1a2a7"]
-advance_mode = 2
-advance_condition = &"is_idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_y0nex"]
 advance_mode = 2
@@ -331,7 +327,7 @@ script = ExtResource("1_k5xl8")
 texture = ExtResource("2_7342j")
 hframes = 2
 vframes = 12
-frame = 1
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -347,8 +343,6 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_has75")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/conditions/is_idle = false
-parameters/conditions/is_walking = false
 parameters/Idle/blend_position = Vector2(-0.0411765, -0.0666667)
 parameters/Walk/blend_position = Vector2(-0.623529, 0.255172)
 
