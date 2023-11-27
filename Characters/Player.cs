@@ -26,6 +26,8 @@ namespace Player
         private PLAYER_STATE _CurrentState;
         private int _CurrentSpeed;
 
+        private Camera2D _Camera2D;
+
         public override void _Ready()
         {
             _AnimationTree = GetNode<AnimationTree>("AnimationTree");
@@ -35,6 +37,7 @@ namespace Player
             _SlideTimer.Timeout += _HandleSlide;
 
             _CurrentSpeed = BaseSpeed;
+            _Camera2D = GetNode<Camera2D>("Camera2D");
         }
 
         private void _HandleSlide()
@@ -115,12 +118,19 @@ namespace Player
             Rotation = Mathf.Atan2(direction.Y, direction.X);
         }
 
+        public void SetCameraPosition()
+        {
+            Vector2 CameraOffset = ((GetGlobalMousePosition() - GlobalPosition) / 2).Normalized();
+            _Camera2D.Position = _Camera2D.Position.Lerp(CameraOffset * 40, CameraOffset.Length() / 10);
+        }
+
         public override void _PhysicsProcess(double delta)
         {
             GetInput();
             Velocity *= _CurrentSpeed;
             UpdateAnimationParameters();
             SetSpriteOrientation();
+            SetCameraPosition();
             MoveAndSlide();
         }
     }
