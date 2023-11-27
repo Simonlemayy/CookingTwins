@@ -1,6 +1,6 @@
-[gd_scene load_steps=36 format=3 uid="uid://cbvubsa5b6o4o"]
+[gd_scene load_steps=36 format=3 uid="uid://dp272n7vcy321"]
 
-[ext_resource type="Script" path="res://Characters/player_cat.cs" id="1_k5xl8"]
+[ext_resource type="Script" path="res://Characters/Player.cs" id="1_k5xl8"]
 [ext_resource type="Texture2D" uid="uid://b3jmvse3u8lqt" path="res://Art/Main_character_spritesheet.png" id="2_7342j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ykpsu"]
@@ -326,7 +326,7 @@ states/Walk/position = Vector2(319, -514)
 transitions = ["Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_fnxbq"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_1a2a7"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_y0nex")]
 graph_offset = Vector2(-47.5, -696.815)
 
-[node name="PlayerCat" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_k5xl8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
