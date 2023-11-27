@@ -124,10 +124,14 @@ namespace Player
             _Camera2D.Position = _Camera2D.Position.Lerp(CameraOffset * 40, CameraOffset.Length() / 10);
         }
 
-        public override void _PhysicsProcess(double delta)
+        public override void _Process(double delta)
         {
             GetInput();
             Velocity *= _CurrentSpeed;
+        }
+
+        public override void _PhysicsProcess(double delta)
+        {
             UpdateAnimationParameters();
             SetSpriteOrientation();
             SetCameraPosition();
