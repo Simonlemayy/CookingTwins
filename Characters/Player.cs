@@ -54,11 +54,13 @@ namespace Player
 
             Rotation = Mathf.Atan2(direction.Y, direction.X);
         }
+
         public void SetCameraPosition()
         {
             Vector2 CameraOffset = ((GetGlobalMousePosition() - GlobalPosition) / 2).Normalized();
             _Camera2D.Position = _Camera2D.Position.Lerp(CameraOffset * 40, CameraOffset.Length() / 10);
         }
+
         public override void _PhysicsProcess(double delta)
         {
             GetInput();
@@ -70,4 +72,3 @@ namespace Player
         }
     }
 }
-	
